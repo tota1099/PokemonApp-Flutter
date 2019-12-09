@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pokemonapp/pokemon.dart';
+import 'package:pokemonapp/pokemondetail.dart';
 
 void main() => runApp(MaterialApp(
   title: "Pokemon App",
@@ -32,6 +33,8 @@ class _HomePageState extends State<HomePage> {
     var decodedJson = jsonDecode(res.body);
 
     pokeHub = PokeHub.fromJson(decodedJson);
+
+    setState(() {});
   }
 
   @override
@@ -47,7 +50,35 @@ class _HomePageState extends State<HomePage> {
             )
           : GridView.count(
               crossAxisCount: 2,
-              children: pokeHub.pokemon.map((poke) => Card()).toList()
+              children: pokeHub.pokemon.map((poke) => Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PokeDetail(
+                      pokemon: poke,
+                    )));
+                  },
+                  child: Hero(
+                    tag: poke.img,
+                    child: Card(
+                      elevation: 3.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget> [
+                          Container(
+                              height: 100.0,
+                              width: 100.0,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: NetworkImage(poke.img))
+                              )
+                          ),
+                          Text(poke.name, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold))
+                        ]
+                      )
+                    ),
+                  ),
+                ),
+              )).toList()
             ),
       floatingActionButton: FloatingActionButton(onPressed: (){}, child: Icon(Icons.refresh)),
     );
