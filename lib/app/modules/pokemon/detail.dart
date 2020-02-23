@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemonapp/pokemon.dart';
+import './pokemon.dart';
 
 class PokeDetail extends StatelessWidget {
   final Pokemon pokemon;
